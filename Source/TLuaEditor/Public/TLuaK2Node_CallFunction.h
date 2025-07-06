@@ -19,9 +19,15 @@ public:
 	virtual void AllocateDefaultPins() override;
 	virtual FText GetNodeTitle(ENodeTitleType::Type TitleType) const override;
 	virtual FText GetTooltipText() const override;
+	virtual void ReconstructNode() override;
 	virtual void ExpandNode(FKismetCompilerContext& CompilerContext, UEdGraph* SourceGraph) override;
 	virtual void GetMenuActions(FBlueprintActionDatabaseRegistrar& ActionRegistrar) const override;
+	virtual void PinDefaultValueChanged(UEdGraphPin* Pin);
+	virtual void PostReconstructNode();
 
 private:
-	int GetArgumentNumber();
+    int GetDynamicPinCount() const;
+    void CreateDynamicPins(int Count, const TArray<UEdGraphPin*>& OldPins);
+    UEdGraphPin* GetArgumentNumberPin() const;
+    static const FName DynamicPinPrefix;
 };
